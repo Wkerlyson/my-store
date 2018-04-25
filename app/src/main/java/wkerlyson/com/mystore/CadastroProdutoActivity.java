@@ -93,7 +93,6 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             mImageUri = data.getData();
 
             Picasso.with(this).load(mImageUri)
-
                     .into(imagemProduto);
         }
     }

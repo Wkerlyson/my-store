@@ -27,6 +27,7 @@ public class Produto {
                 if (databaseError == null){
                     Toast.makeText(activity.getApplicationContext(), "Cadastrado com sucesso", Toast.LENGTH_LONG).show();
                     activity.startActivity(new Intent(activity.getApplicationContext(), ProdutosActivity.class));
+                    activity.finish();
                 }else{
                     Toast.makeText(activity.getApplicationContext(), "Erro ao cadastrar. Erro: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
