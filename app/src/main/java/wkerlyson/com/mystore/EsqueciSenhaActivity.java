@@ -1,5 +1,6 @@
 package wkerlyson.com.mystore;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,8 +45,12 @@ public class EsqueciSenhaActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        startActivity(new Intent(EsqueciSenhaActivity.this, LoginActivity.class));
+                        finish();
                         Toast.makeText(EsqueciSenhaActivity.this, "E-mail enviado com sucesso", Toast.LENGTH_LONG).show();
-                        return;
+                    }else{
+                        Toast.makeText(EsqueciSenhaActivity.this, "Erro ao enviar o email. ERRO: " + task.getException()
+                                , Toast.LENGTH_LONG).show();
                     }
                 }
             });

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">MyStore</string>
-    <string name="title_activity_produtos">ProdutosActivity</string>
+    <string name="app_name">My Store</string>
+    <string name="title_activity_produtos">Produtos</string>
 </resources>

@@ -1,8 +1,10 @@
 package wkerlyson.com.mystore;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wkerlyson.com.mystore.util.FirebaseUtil;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -29,7 +32,7 @@ public class RegistroActivity extends AppCompatActivity {
     @BindView(R.id.etSenha)
     EditText campoSenha;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -37,7 +40,7 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         ButterKnife.bind(this);
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseUtil.getInstanceFirebaseAuth();
     }
 
     @OnClick(R.id.btRegistrar)
@@ -47,33 +50,38 @@ public class RegistroActivity extends AppCompatActivity {
         String senha = campoSenha.getText().toString().trim();
         final String nome = campoNome.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(senha) || TextUtils.isEmpty(nome)){
+            Toast.makeText(RegistroActivity.this, "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
+        }else{
+            auth.createUserWithEmailAndPassword(email, senha)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = auth.getCurrentUser();
 
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(nome)
-                                    .build();
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(nome)
+                                        .build();
 
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                // Log.d(TAG, "User profile updated.");
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Log.d(TAG, "User profile updated.");
+                                                }
                                             }
-                                        }
-                                    });
-                            Toast.makeText(RegistroActivity.this, "Registrado", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(RegistroActivity.this, "Registrado" + task.getException(), Toast.LENGTH_LONG).show();
-                        }
+                                        });
+                                Toast.makeText(RegistroActivity.this, "Registrado com sucesso", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(RegistroActivity.this, "Erro ao registrar. Erro: " + task.getException(), Toast.LENGTH_LONG).show();
+                            }
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 }

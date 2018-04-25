@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +25,7 @@ import org.w3c.dom.Text;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wkerlyson.com.mystore.util.FirebaseUtil;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvRegistre)
     TextView registre;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -49,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseUtil.getInstanceFirebaseAuth();
     }
 
     @OnClick(R.id.btLogar)
@@ -57,22 +60,27 @@ public class LoginActivity extends AppCompatActivity {
         String email = campoEmail.getText().toString().trim();
         String senha = campoSenha.getText().toString().trim();
 
-        mAuth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, ProdutosActivity.class));
-                            finish();
-                            Toast.makeText(LoginActivity.this, "Sucesso BB", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Erro ao autenticar." + task.getException(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+        if (TextUtils.isEmpty(email)){
+            Toast.makeText(this, "Informe o e-mail", Toast.LENGTH_LONG).show();
+        }else if(TextUtils.isEmpty(senha)){
+            Toast.makeText(this, "Informe a senha", Toast.LENGTH_LONG).show();
+        }else{
+            auth.signInWithEmailAndPassword(email, senha)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = auth.getCurrentUser();
+                                startActivity(new Intent(LoginActivity.this, ProdutosActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Falha na autenticação. ERRO: " + task.getException(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 
     @OnClick(R.id.tvEsqSenha)
@@ -86,4 +94,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);
         startActivity(intent);
     }
+
+
 }
