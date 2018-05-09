@@ -39,9 +39,10 @@ public class AdapterListProdutos extends RecyclerView.Adapter<AdapterListProduto
         Produto produto = produtos.get(position);
         holder.nome.setText(produto.getNomeProduto());
         holder.valor.setText( String.valueOf(produto.getValorProduto()));
+        holder.descricao.setText(produto.getDescricaoProduto());
 
         Picasso.with(context).load(produto.getUrlImagem())
-                .placeholder(R.drawable.ic_terrain_24dp)
+                .placeholder(R.drawable.ic_photo_24dp)
                 .centerCrop()
                 .resize(200, 200).into(holder.imagemProduto);
 
@@ -56,6 +57,8 @@ public class AdapterListProdutos extends RecyclerView.Adapter<AdapterListProduto
 
         @BindView(R.id.tvNomeProdutoList)
         TextView nome;
+        @BindView(R.id.tvDescProdutoList)
+        TextView descricao;
         @BindView(R.id.tvValorProduto)
         TextView valor;
         @BindView(R.id.ivProdutoList)

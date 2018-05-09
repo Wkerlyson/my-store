@@ -7,15 +7,18 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
+
 import wkerlyson.com.mystore.CadastroProdutoActivity;
 import wkerlyson.com.mystore.ProdutosActivity;
 import wkerlyson.com.mystore.util.FirebaseUtil;
 
-public class Produto {
+public class Produto implements Serializable{
     private String nomeProduto;
     private String descricaoProduto;
     private Double valorProduto = 00.00;
     private String urlImagem;
+    private String key;
 
     public Produto() {
     }
@@ -31,6 +34,22 @@ public class Produto {
                     activity.finish();
                 }else{
                     Toast.makeText(activity.getApplicationContext(), "Erro ao cadastrar. Erro: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void editarProduto(final Activity activity, Produto produto){
+        DatabaseReference reference = FirebaseUtil.getInstanceDatabaseReference();
+        reference.child("produtos").child(produto.getKey()).setValue(this, new DatabaseReference.CompletionListener(){
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null){
+                    Toast.makeText(activity.getApplicationContext(), "Editado com sucesso", Toast.LENGTH_LONG).show();
+                    activity.startActivity(new Intent(activity.getApplicationContext(), ProdutosActivity.class));
+                    activity.finish();
+                }else{
+                    Toast.makeText(activity.getApplicationContext(), "Erro ao editar. Erro: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -68,5 +87,13 @@ public class Produto {
 
     public void setUrlImagem(String urlImagem) {
         this.urlImagem = urlImagem;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

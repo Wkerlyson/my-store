@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="wkerlyson.com.mystore">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +27,9 @@
             android:name=".ProdutosActivity"
             android:label="@string/title_activity_produtos"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CadastroProdutoActivity"></activity>
+        <activity android:name=".CadastroProdutoActivity" />
+        <activity android:name=".DetalhesProduto" />
+        <activity android:name=".EdicaoProdutoActivity"></activity>
     </application>
 
 </manifest>

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:layout_editor_absoluteY="81dp">
 
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:elevation="30dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivProdutoList"
@@ -25,44 +24,54 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
-        <TextView
-            android:id="@+id/tvNomeProdutoList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Nome Produto"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="88dp"
-            tools:layout_editor_absoluteY="8dp" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvLabelReal"
+                android:id="@+id/tvNomeProdutoList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Nome Produto"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="88dp"
+                tools:layout_editor_absoluteY="8dp" />
+
+            <TextView
+                android:id="@+id/tvDescProdutoList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="R$ "
-                tools:layout_editor_absoluteX="88dp"
-                tools:layout_editor_absoluteY="41dp" />
+                android:text="descricao" />
 
-            <TextView
-                android:id="@+id/tvValorProduto"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valor"
-                android:textColor="@color/colorPrimary"
-                tools:layout_editor_absoluteX="88dp"
-                tools:layout_editor_absoluteY="41dp" />
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tvLabelReal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="R$ "
+                    tools:layout_editor_absoluteX="88dp"
+                    tools:layout_editor_absoluteY="41dp" />
+
+                <TextView
+                    android:id="@+id/tvValorProduto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valor"
+                    android:textColor="@color/colorPrimary"
+                    tools:layout_editor_absoluteX="88dp"
+                    tools:layout_editor_absoluteY="41dp" />
+            </LinearLayout>
         </LinearLayout>
 
-
     </LinearLayout>
-
 </LinearLayout>
