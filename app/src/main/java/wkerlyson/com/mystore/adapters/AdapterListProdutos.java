@@ -1,11 +1,15 @@
 package wkerlyson.com.mystore.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,6 +39,12 @@ public class AdapterListProdutos extends RecyclerView.Adapter<AdapterListProduto
         Produto produto = produtos.get(position);
         holder.nome.setText(produto.getNomeProduto());
         holder.valor.setText( String.valueOf(produto.getValorProduto()));
+
+        Picasso.with(context).load(produto.getUrlImagem())
+                .placeholder(R.drawable.ic_terrain_24dp)
+                .centerCrop()
+                .resize(200, 200).into(holder.imagemProduto);
+
     }
 
     @Override
@@ -48,6 +58,8 @@ public class AdapterListProdutos extends RecyclerView.Adapter<AdapterListProduto
         TextView nome;
         @BindView(R.id.tvValorProduto)
         TextView valor;
+        @BindView(R.id.ivProdutoList)
+        ImageView imagemProduto;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -52,9 +52,9 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     @OnClick(R.id.btnCadastrarProduto)
     public void cadastarProduto(View view){
 
-        String textoNome = campoNome.getText().toString();
-        String textoDescricao = campoDescricao.getText().toString();
-        String textoValor = campoValor.getText().toString();
+        final String textoNome = campoNome.getText().toString();
+        final String textoDescricao = campoDescricao.getText().toString();
+        final String textoValor = campoValor.getText().toString();
 
         if (textoNome.isEmpty() || textoDescricao.isEmpty() || textoValor.isEmpty()){
             Toast.makeText(this, "Todos os campos são obrigatórios", Toast.LENGTH_SHORT).show();
@@ -64,15 +64,16 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             caminhoImagem.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                    Produto produto = new Produto();
+                    produto.setNomeProduto(textoNome);
+                    produto.setDescricaoProduto(textoDescricao);
+                    produto.setValorProduto(Double.parseDouble(textoValor));
+                    produto.setUrlImagem(taskSnapshot.getDownloadUrl().toString());
+                    produto.cadastrarProduto(CadastroProdutoActivity.this);
                 }
             });
 
-            Produto produto = new Produto();
-            produto.setNomeProduto(textoNome);
-            produto.setDescricaoProduto(textoDescricao);
-            produto.setValorProduto(Double.parseDouble(textoValor));
-            produto.cadastrarProduto(CadastroProdutoActivity.this);
+
 
         }
     }

@@ -15,6 +15,7 @@ public class Produto {
     private String nomeProduto;
     private String descricaoProduto;
     private Double valorProduto = 00.00;
+    private String urlImagem;
 
     public Produto() {
     }
@@ -59,5 +60,13 @@ public class Produto {
 
     public void setValorProduto(Double valorProduto) {
         this.valorProduto = valorProduto;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }
